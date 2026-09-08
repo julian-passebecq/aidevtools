@@ -1,0 +1,49 @@
+name: Build MS Dev showcase PNGs
+
+on:
+  push:
+    paths:
+      - '.github/workflows/ms-dev-showcase.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build-showcase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install image dependency
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Restore showcase generator
+        shell: bash
+        run: |
+          cat ms_dev_showcase_gpt56sol/generator_payload/01.b64part | base64 -d | gzip -d > /tmp/generate_showcase.py
+          sed -i "s#ROOT = Path('/mnt/data/ms_dev_showcase_gpt56sol')#ROOT = Path('$GITHUB_WORKSPACE/ms_dev_showcase_gpt56sol')#" /tmp/generate_showcase.py
+
+      - name: Generate documentation and PNG boards
+        run: python /tmp/generate_showcase.py
+
+      - name: Remove temporary payload and commit generated showcase
+        shell: bash
+        run: |
+          rm -rf ms_dev_showcase_gpt56sol/generator_payload
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ms_dev_showcase_gpt56sol
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+          else
+            git commit -m "docs: generate MS Dev interview showcase"
+            git push
+          fi
