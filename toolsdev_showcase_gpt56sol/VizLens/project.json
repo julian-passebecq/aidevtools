@@ -1,0 +1,17 @@
+{
+  "name": "VizLens Personal",
+  "repo": "https://github.com/julian-passebecq/VizLens",
+  "website": null,
+  "runtime": "Chrome MV3 side-panel extension + optional local Node companion",
+  "version": "1.0.0 personal baseline",
+  "stack": ["Chrome MV3", "Vanilla JavaScript", "Node.js localhost companion", "Gemini Interactions API"],
+  "summary": "Deterministic-first visual research extension that recovers page/article/chart evidence locally and optionally uses constrained Gemini function calling or structured output for grounded semantic decisions.",
+  "image_type": "repo-grounded explanatory UI reconstruction",
+  "screens": [
+    "png/01_scan_visuals.png",
+    "png/02_article_evidence.png",
+    "png/03_recovered_data.png",
+    "png/04_grounded_gemini.png",
+    "png/05_downstream_handoffs.png"
+  ]
+}
