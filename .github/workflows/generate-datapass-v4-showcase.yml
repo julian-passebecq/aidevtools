@@ -1,0 +1,47 @@
+name: Generate Datapass V4 showcase
+
+on:
+  push:
+    branches:
+      - datapass-v4-showcase-images
+    paths:
+      - tools/generate_datapass_v4_showcase.py
+      - .github/workflows/generate-datapass-v4-showcase.yml
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: datapass-v4-showcase-images
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Generate 30 PNG boards and README galleries
+        run: python tools/generate_datapass_v4_showcase.py
+
+      - name: Commit generated showcase
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datapass_v4_showcase_gpt56sol
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "docs(datapass): add six-consumer PNG showcase"
+          git push origin HEAD:datapass-v4-showcase-images
