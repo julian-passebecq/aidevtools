@@ -1,0 +1,17 @@
+{
+  "name": "J Utility Palette",
+  "repo": "https://github.com/julian-passebecq/PowerToy_UI",
+  "website": null,
+  "runtime": "Windows desktop",
+  "version": "V1 clean standalone baseline",
+  "stack": ["C#", ".NET 8", "WPF", "local JSON"],
+  "summary": "Lightweight Windows productivity companion for project links, reusable prompt modules, recent prompts and sticky notes, with Normal/Always-on-top/Summon-hide window behavior.",
+  "image_type": "repo-grounded explanatory UI reconstruction",
+  "screens": [
+    "png/01_project_clipboard.png",
+    "png/02_prompt_composer.png",
+    "png/03_sticky_notes.png",
+    "png/04_window_settings.png",
+    "png/05_summon_hide_workflow.png"
+  ]
+}
